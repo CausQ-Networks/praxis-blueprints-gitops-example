@@ -32,24 +32,24 @@ See [.github/workflows/apply-blueprints.yml](./.github/workflows/apply-blueprint
 
 Add these repository secrets in GitHub before running the workflow:
 
-- `PANGOLIN_INTEGRATION_API_KEY`
+- `PRAXIS_INTEGRATION_API_KEY`
 - `PRAXIS_ENDPOINT`
-- `PANGOLIN_ORG_ID`
+- `PRAXIS_ORG_ID`
 
 `PRAXIS_ENDPOINT` should be the Praxis Integration API endpoint, not the dashboard URL. For a self-hosted deployment this is typically the externally reachable API base URL, for example `https://api.example.com/v1`.
 
 References:
 
-- [Integration API](https://docs.praxis.causq.com/manage/integration-api)
-- [Enable Integration API for self-hosted Praxis](https://docs.praxis.causq.com/self-host/advanced/integration-api)
+- [Integration API](https://docs-praxis.causq.com/manage/integration-api)
+- [Enable Integration API for self-hosted Praxis](https://docs-praxis.causq.com/self-host/advanced/integration-api)
 
 The workflow passes those values to:
 
 ```bash
-pangolin apply blueprint \
-  --api-key "$PANGOLIN_INTEGRATION_API_KEY" \
+praxis apply blueprint \
+  --api-key "$PRAXIS_INTEGRATION_API_KEY" \
   --endpoint "$PRAXIS_ENDPOINT" \
-  --org "$PANGOLIN_ORG_ID" \
+  --org "$PRAXIS_ORG_ID" \
   --file "$blueprint"
 ```
 
