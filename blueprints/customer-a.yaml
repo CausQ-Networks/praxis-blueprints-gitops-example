@@ -1,0 +1,30 @@
+---
+# Customer A demonstrates a private SSH resource and a public web resource.
+private-resources:
+  ssh-resource:
+    name: SSH Server
+    mode: host
+    destination: localhost
+    site: average-yosemite-toad
+    tcp-ports: "22"
+    disable-icmp: false
+    alias: ssh.customera.local
+    roles:
+      - IT
+      - Member
+
+public-resources:
+  secure-resource:
+    name: Web Resource
+    protocol: http
+    full-domain: secure-resource.exampletunnel.io
+    auth:
+      sso-enabled: true
+      sso-roles:
+        - Member
+      sso-users: []
+    targets:
+      - site: average-yosemite-toad
+        hostname: localhost
+        method: http
+        port: 8080

@@ -1,0 +1,47 @@
+name: Apply Praxis blueprints
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "blueprints/**"
+      - ".github/workflows/apply-blueprints.yml"
+  workflow_dispatch:
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+
+    env:
+      PANGOLIN_INTEGRATION_API_KEY: ${{ secrets.PANGOLIN_INTEGRATION_API_KEY }}
+      PRAXIS_ENDPOINT: ${{ secrets.PRAXIS_ENDPOINT }}
+      PANGOLIN_ORG_ID: ${{ secrets.PANGOLIN_ORG_ID }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Praxis CLI
+        run: curl -fsSL https://praxis.causq.com/get-cli.sh | bash
+
+      - name: Apply Praxis blueprints
+        run: |
+          blueprint="./blueprints/customer-a.yaml"
+
+          echo "Applying ${blueprint}"
+          praxis apply blueprint \
+            --api-key "$PANGOLIN_INTEGRATION_API_KEY" \
+            --endpoint "$PRAXIS_ENDPOINT" \
+            --org "$PANGOLIN_ORG_ID" \
+            --file "$blueprint"
+
+          # To apply every blueprint in the directory instead, use:
+          # for blueprint in ./blueprints/*.yaml; do
+          #   echo "Applying ${blueprint}"
+          #   praxis apply blueprint \
+          #     --api-key "$PANGOLIN_INTEGRATION_API_KEY" \
+          #     --endpoint "$PRAXIS_ENDPOINT" \
+          #     --org "$PANGOLIN_ORG_ID" \
+          #     --file "$blueprint"
+          # done
